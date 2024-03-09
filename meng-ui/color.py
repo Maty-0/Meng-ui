@@ -8,6 +8,9 @@ class foreground:
     cyan = "\x1b[36m"
     white = "\x1b[37m"
 
+    def rgb(r,g,b):
+        return "\033[38;2;{};{};{}m".format(r,g,b)
+
 class background:
     black = "\x1b[40m"
     red = "\x1b[41m"
@@ -17,3 +20,6 @@ class background:
     magenta = "\x1b[45m"
     cyan = "\x1b[46m"
     white = "\x1b[47m"
+
+    def rgb(r,g,b):
+        return "\033[48;2;{};{};{}m".format(r,g,b)

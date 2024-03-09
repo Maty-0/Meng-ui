@@ -5,11 +5,11 @@ from color import *
 test = Template()
 test.generate()
 test.add_box()
-test.add_text(["H","e","l", "l", "o"], 5, 5, foreground.green, background.black)
+test.add_text("Hello", 5, 5, foreground.green, background.black)
 
 test2 = Template()
-test2.generate(None, "\x1b[44;1m")
-test2.add_text(["w","o","r","l","d"], 5, 5)
+test2.generate(None, background.rgb(204,255,153))
+test2.add_text("WORLD", 5, 5)
 
 
 while True:
