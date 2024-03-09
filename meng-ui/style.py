@@ -7,8 +7,15 @@ class Template:
     def __init__(self):
         self.matrix = []
         self.terminal_width, self.terminal_height = 50,50
+        self.background_color = background.black
+        self.text = []
+        self.box = []
+        self.regen = False
+
 
     def generate(self, preset=None, background_color=background.black):
+        self.matrix = []
+        
         if preset is None:
             width, height = os.get_terminal_size()
         else: 
@@ -20,18 +27,38 @@ class Template:
             for _ in range(0, self.terminal_width):
                 data.append(background_color + " ")
             self.matrix.append(data)
+        self.background_color = background_color
+    
+    def regenerate(self):
+        self.regen = True
+        self.terminal_width, self.terminal_height = os.get_terminal_size()
+        self.generate(background_color=self.background_color)
+        for a in self.text:
+            print(a)
+            self.add_text(a[0], a[1], a[2], a[3], a[4])
+        for y in self.box:
+            self.add_box(y[0], y[1], y[2], y[3], y[4], y[5], y[6], y[7], y[8])
+        self.regen = False
+            
+
 
     def add_text(self, text, x, y, foreground_color = foreground.white, background_color = background.black):
-        x_data = self.matrix[x]
+        if self.regen == False:
+            self.text.append([text,x,y,foreground_color,background_color])
+
+        x_data = self.matrix[y]
         count = 0
         for chars in text:
-            if y + count > len(x_data):
-                return
-            x_data[y + count] = foreground_color + background_color + chars + "\u001b[0m"
+            if x + count >= len(x_data):
+                break
+            x_data[x + count] = foreground_color + background_color + chars + "\u001b[0m"
             count += 1
-        self.matrix[x] = x_data
+        self.matrix[y] = x_data
 
     def add_box(self, x=0, y=0, width=1, height=1, top_bot = "-" ,side = "|",edge = "+" , foreground_color = foreground.white, background_color = background.black):
+        if self.regen == False:
+            self.box.append([x,y,width,height,top_bot,side,edge,foreground_color,background_color])
+
         if x + width > len(self.matrix[x]):
             return "Out of range"
         if y + height > len(self.matrix):
@@ -59,8 +86,10 @@ class Template:
 
 
 def display(template):
+    os.system('clear')
+    if os.get_terminal_size() != (template.terminal_width, template.terminal_height):
+        template.regenerate()
     count = 0
-    os.system('cls')
     for x in template.matrix:
         row = ""
         for z in x:

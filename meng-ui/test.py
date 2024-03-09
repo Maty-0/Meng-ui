@@ -9,7 +9,7 @@ test.add_text("Hello", 5, 5, foreground.green, background.black)
 
 test2 = Template()
 test2.generate(None, background.rgb(204,255,153))
-test2.add_text("WORLD", 5, 5)
+test2.add_text("WORLD", 5, 10)
 
 
 while True:
