@@ -17,10 +17,9 @@ class Template:
 
         for _ in range(self.terminal_height):
             data = []
-            for y in range(0, self.terminal_width):
+            for _ in range(0, self.terminal_width):
                 data.append(background_color + " ")
             self.matrix.append(data)
-            #self.matrix.append(data + "\u001b[0m")
 
     def add_text(self, text, x, y, foreground_color = foreground.white, background_color = background.black):
         x_data = self.matrix[x]
@@ -32,7 +31,7 @@ class Template:
             count += 1
         self.matrix[x] = x_data
 
-    def add_border(self, x=0, y=0, width=1, height=1, foreground_color = foreground.white, background_color = background.black):
+    def add_box(self, x=0, y=0, width=1, height=1, top_bot = "-" ,side = "|",edge = "+" , foreground_color = foreground.white, background_color = background.black):
         if x + width > len(self.matrix[x]):
             return "Out of range"
         if y + height > len(self.matrix):
@@ -48,24 +47,28 @@ class Template:
             for b in range(width):
                 if a == 0 or a == height - 1:
                     if b == 0:
-                        x_data[x + b] = foreground_color + background_color + "+" + "\u001b[0m"
+                        x_data[x + b] = foreground_color + background_color + edge + "\u001b[0m"
                     elif b == width - 1:
-                        x_data[x + b] = foreground_color + background_color + "+" + "\u001b[0m"
+                        x_data[x + b] = foreground_color + background_color + edge + "\u001b[0m"
                     else:
-                        x_data[x + b] = foreground_color + background_color + "-" + "\u001b[0m"
+                        x_data[x + b] = foreground_color + background_color + top_bot + "\u001b[0m"
                 elif b == 0 or b == width - 1:
-                    x_data[x + b] = foreground_color + background_color + "|" + "\u001b[0m"
+                    x_data[x + b] = foreground_color + background_color + side + "\u001b[0m"
 
                 self.matrix[y + a] = x_data
 
+
 def display(template):
+    count = 0
     os.system('cls')
     for x in template.matrix:
         row = ""
         for z in x:
             row += z
-        sys.stdout.write(row + '\n')
-    #input("test")
-    #sys.stdout.write('gfg')
-    #sys.stdin.readline().rstrip('\n')
-    #print("\x1b[1A" * (len(template.matrix) + 1), end='\n', flush=True)
+        if count < len(template.matrix) -1:
+            row += '\n'
+        sys.stdout.write(row)
+        sys.stdout.flush()
+        count += 1
+    sys.stdout.write("\033[?25l")
+    sys.stdout.flush()

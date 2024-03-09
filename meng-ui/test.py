@@ -4,7 +4,7 @@ from color import *
 
 test = Template()
 test.generate()
-test.add_border()
+test.add_box()
 test.add_text(["H","e","l", "l", "o"], 5, 5, foreground.green, background.black)
 
 test2 = Template()
