@@ -5,3 +5,5 @@ TODO
 - [ ] Allow templates/boxes to have child objects
 - [ ] Add selectable buttons that can callback to a function
 - [ ] Add scrollable text view 
+- [x] Make everything classes
+- [ ] ID for render importance
