@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mengui"
+version = "0.1"
+description = "A simple python ui that runs in your terminal."
+authors = [
+    { name = "meng", email = "meng@meng.zip" }
+]
+dependencies = []
+
+[tool.setuptools]
+packages = ["mengui"]

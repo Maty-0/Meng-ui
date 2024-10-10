@@ -1,5 +1,5 @@
 import os
-from color import *
+from mengui.color import *
 import sys
 import threading
 
@@ -41,9 +41,11 @@ class Template:
         for b in self.button_cache:
             self.add_button([b])
             
-    def move(self, direction, template_only=False):
-        for a in self.button:
-            pass
+    def move(self, direction="up", template_only=False):
+        self.button_cache.sort()
+       # print(self.button_cache)
+       # for a in self.button:
+           # pass
     
 #           _,'|             _.-''``-...___..--';)
 #          /_ \'.      __..-' ,      ,--...--'''
