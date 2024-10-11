@@ -1,7 +1,6 @@
 import os
 from mengui.color import *
 import sys
-import threading
 
 class Template:
     def __init__(self):
@@ -12,6 +11,7 @@ class Template:
         self.text_cache = []
         self.box_cache = []
         self.button_cache = []
+        self.sorted_buttons_x = []
         self.regen = False
 
     def generate(self, preset=None, background_color=background.black):
@@ -21,6 +21,7 @@ class Template:
             width, height = os.get_terminal_size()
         else: 
             width, height = preset
+            sys.stdout.write("".format(rows=width, cols=height))
         self.terminal_width, self.terminal_height = width, height
 
         for _ in range(self.terminal_height):
@@ -35,15 +36,17 @@ class Template:
         self.terminal_width, self.terminal_height = os.get_terminal_size()
         os.system('cls')
         self.generate(background_color=self.background_color)
-        for a in self.text_cache:
-            self.add_text([a])
+        self.add_text(self.text_cache)
         self.add_box(self.box_cache)
         for b in self.button_cache:
             self.add_button([b])
             
-    def move(self, direction="up", template_only=False):
+    def move(self, direction=None, template_only=False):
+        if direction == None:
+            return
         self.button_cache.sort()
-       # print(self.button_cache)
+        print(self.button_cache)
+        sys.exit()
        # for a in self.button:
            # pass
     
@@ -59,7 +62,12 @@ class Template:
             if self.regen == False:
                 self.text_cache.append(text)
 
-            x_data = self.matrix[text.y]
+            #out of range, dont draw
+            try:
+                x_data = self.matrix[text.y]
+            except:
+                break
+
             count = 0
             for chars in text.text:
                 if text.x + count >= len(x_data):
@@ -72,11 +80,6 @@ class Template:
         for box in boxes:
             if self.regen == False:
                 self.box_cache.append(box)
-
-            if box.x + box.width > len(self.matrix[box.x]):
-                return "Out of range"
-            if box.y + box.height > len(self.matrix):
-                return "Out of range"
             
             render_width, render_height = box.width, box.height
         
@@ -86,18 +89,31 @@ class Template:
                 render_height = int(self.terminal_height * box.height)
             
             for a in range(render_height):
-                x_data = self.matrix[box.y + a]
-                for b in range(render_width):
-                    if a == 0 or a == render_height - 1:
-                        if b == 0:
-                            x_data[box.x + b] = box.foreground_color + box.background_color + box.edge + "\u001b[0m"
-                        elif b == render_width - 1:
-                            x_data[box.x + b] = box.foreground_color + box.background_color + box.edge + "\u001b[0m"
-                        else:
-                            x_data[box.x + b] = box.foreground_color + box.background_color + box.top_bot + "\u001b[0m"
-                    elif b == 0 or b == render_width - 1:
-                        x_data[box.x + b] = box.foreground_color + box.background_color + box.side + "\u001b[0m"
+                try:
+                    x_data = self.matrix[box.y + a]
+                
+                #out of range, dont draw
+                except:
+                    break
 
+                for b in range(render_width):
+                    try:
+                        if a == 0 or a == render_height - 1:
+                        
+                            if b == 0:
+                                x_data[box.x + b] = box.foreground_color + box.background_color + box.edge + "\u001b[0m"
+                            elif b == render_width - 1:
+                                x_data[box.x + b] = box.foreground_color + box.background_color + box.edge + "\u001b[0m"
+                            else:
+                                x_data[box.x + b] = box.foreground_color + box.background_color + box.top_bot + "\u001b[0m"
+                                 
+                    
+                        elif b == 0 or b == render_width - 1:
+                            x_data[box.x + b] = box.foreground_color + box.background_color + box.side + "\u001b[0m"
+                    
+                    #out of range, dont draw
+                    except:
+                        break
                     self.matrix[box.y + a] = x_data
 
     def edit_matrix(self, x,y,string):
@@ -110,26 +126,44 @@ class Template:
             if self.regen == False:
                 self.button_cache.append(button)
 
+            #out of range, dont draw
+                if button.x + button.width > len(self.matrix[0]):
+                    break 
+                if button.y + button.height > len(self.matrix):
+                    break
+
             background_color, foreground_color = button.background_color, button.foreground_color
             if button.hover:
                 background_color, foreground_color = button.background_hover, button.foreground_hover
 
             #generate background
             for b in range(button.height):
-                x_data = self.matrix[button.y+b]
+
+                try:
+                    x_data = self.matrix[button.y+b]
+                
+                #out of range dont draw
+                except:
+                    break
+                
                 for a in range(button.width):
                     if button.x + a >= len(x_data):
                         break
                     x_data[button.x+a] = background_color + " " + "\u001b[0m"
         
-            #generate text
+            #generate text  //todo raplce this with text class
             x,y = 0,0
             if button.width > len(button.text)+1:
                 x = int((button.width - len(button.text)) / 2)
             if button.height > 2:
                 y = int((button.height -1) /2)
         
-            x_data = self.matrix[button.y + y]
+            try:
+                x_data = self.matrix[button.y + y]
+            except:
+                #out of range dont draw
+                break
+
             count = 0
             for chars in button.text:
                 if (x + button.x) + count >= len(x_data):

@@ -1,9 +1,21 @@
 # Meng-ui
+Meng-ui is a simple Python library for creating and manipulating terminal-based graphical interfaces using text and ANSI escape codes. 
+This package allows you to build colorful and interactive ui's in your terminal.
+
+
+### Installation
+
+You can install the package by cloning the repository and using pip:
+
+```
+git clone https://github.com/Maty-0/Meng-ui.git
+cd meng-ui
+pip install -e .
+```
  
-TODO
-- [x] Scale everything without needing to restart the terminal
-- [ ] Allow templates/boxes to have child objects
-- [ ] Add selectable buttons that can callback to a function
-- [ ] Add scrollable text view 
-- [x] Make everything classes
-- [ ] ID for render importance
+
+### goals
+- [ ] Upload package to PyPI
+- [ ] Cross-Platform Compatibility
+- [ ] Community Engagement
+- [ ] Create Tutorials

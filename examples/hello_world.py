@@ -17,7 +17,11 @@ test.add_box([box])
 
 #lets do the same for the world text, notice how we can reuse the box we created earlier
 test2 = Template()
+
+#in this genarate we define the background color of the template
 test2.generate(None, background.rgb(204,255,153))
+
+
 text2 = Text("WORLD", 5, 10)
 test2.add_text([text2])
 test2.add_box([box])
