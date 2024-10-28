@@ -1,6 +1,7 @@
 import msvcrt
 
 def get_key():
+        #todo linux support
         if msvcrt.kbhit():
             key = msvcrt.getch()
             if key == b'\xe0':  # Special key prefix

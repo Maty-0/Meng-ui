@@ -21,7 +21,7 @@ class Template:
             width, height = os.get_terminal_size()
         else: 
             width, height = preset
-            sys.stdout.write("".format(rows=width, cols=height))
+            sys.stdout.write("".format(rows=width, cols=height)) #todo, rewrite logic, this rescale does not work like desired yet
         self.terminal_width, self.terminal_height = width, height
 
         for _ in range(self.terminal_height):
@@ -56,6 +56,7 @@ class Template:
 #          `-';'   features   ;   ; ;
 #    __...--''     ___...--_..'  .;.'
 #   (,__....----'''       (,..--''   
+
 
     def add_text(self, texts):
         for text in texts:

@@ -1,6 +1,9 @@
 # Meng-ui
+![til](examples/logo_bounce.gif)
 Meng-ui is a simple Python library for creating and manipulating terminal-based graphical interfaces using text and ANSI escape codes. 
 This package allows you to build colorful and interactive ui's in your terminal.
+
+
 
 
 ### Installation
