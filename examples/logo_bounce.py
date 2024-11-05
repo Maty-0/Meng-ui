@@ -19,7 +19,7 @@ def random_foreground():
 def check_border():
     global bounce_direction
     width, height = os.get_terminal_size()
-    if width <= (text.x + 6): #+6 acounting for the space the string takes up after the location
+    if width <= (text.x + 6): #+6 accounting  for the space the string takes up after the location
         bounce_direction = bounce_direction[0] + "L" #change direction from right to left but keep the old up/down
         return True
     if height <= text.y + 1:
@@ -53,10 +53,10 @@ def bounce():
             text.y -= 1
 
 
-bounce_direction = "DR" #DL = down reight, UL = up left,...
+bounce_direction = "DR" #DR = down right, UL = up left,...
 
 while True:
     terminal.print(template1)
     bounce()
     time.sleep(0.1)
-    template1.regenerate() #after editing values on the fly we have to manualy give the regenerate call so we have the correct matrix
+    template1.regenerate() #after editing values on the fly we have to manually give the regenerate call so we have the correct matrix

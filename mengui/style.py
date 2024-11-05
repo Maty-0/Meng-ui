@@ -1,5 +1,6 @@
 import os
 from mengui.color import *
+from mengui.eol import check_os, clear_screen
 import sys
 
 class Template:
@@ -13,6 +14,7 @@ class Template:
         self.button_cache = []
         self.sorted_buttons_x = []
         self.regen = False
+        self.os = check_os()
 
     def generate(self, preset=None, background_color=background.black):
         self.matrix = []
@@ -34,7 +36,7 @@ class Template:
     def regenerate(self):
         self.regen = True
         self.terminal_width, self.terminal_height = os.get_terminal_size()
-        os.system('cls')
+        clear_screen(self.os)
         self.generate(background_color=self.background_color)
         self.add_text(self.text_cache)
         self.add_box(self.box_cache)

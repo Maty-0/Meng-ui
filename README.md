@@ -19,6 +19,6 @@ pip install -e .
 
 ### goals
 - [ ] Upload package to PyPI
-- [ ] Cross-Platform Compatibility
+- [x] Cross-Platform Compatibility
 - [ ] Community Engagement
 - [ ] Create Tutorials

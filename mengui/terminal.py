@@ -1,12 +1,13 @@
 import sys
 import os
 import copy
+from mengui.eol import clear_screen
 
 
 class display:
     def __init__(self):
         self.last_print = None
-        os.system('cls')
+        clear_screen()
 
     def print(self,template):
         if os.get_terminal_size() != (template.terminal_width, template.terminal_height):   
